@@ -5,15 +5,15 @@
   emulate -L zsh; setopt local_options $_adote_funcopts
 
   local result
-  if [[ "${OSTYPE}" == darwin* ]]; then
+  if [[ -n "$XDG_CACHE_HOME" ]]; then
+    result=$XDG_CACHE_HOME
+  elif [[ "${OSTYPE}" == darwin* ]]; then
     result=$HOME/Library/Caches
   elif [[ "${OSTYPE}" == (cygwin|msys)* ]]; then
     result=${LOCALAPPDATA:-$LocalAppData}
     if type cygpath > /dev/null; then
       result=$(cygpath "$result")
     fi
-  elif [[ -n "$XDG_CACHE_HOME" ]]; then
-    result=$XDG_CACHE_HOME
   else
     result=$HOME/.cache
   fi
